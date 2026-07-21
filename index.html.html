@@ -8,14 +8,35 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', -apple-system, sans-serif; }
         body { background: linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%); color: #ffffff; padding-bottom: 50px; min-height: 100vh; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        header { text-align: center; padding: 50px 20px 40px; animation: fadeUp 0.8s ease-out forwards; }
-        header h1 { font-size: 32px; font-weight: 200; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; background: linear-gradient(to right, #fff, #a3a3a3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        header p { color: #888888; font-size: 13px; letter-spacing: 1px; font-weight: 300; }
         
+        header { text-align: center; padding: 50px 20px 30px; animation: fadeUp 0.8s ease-out forwards; }
+        header h1 { font-size: 32px; font-weight: 200; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; background: linear-gradient(to right, #fff, #a3a3a3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { color: #888888; font-size: 13px; letter-spacing: 1px; font-weight: 300; margin-bottom: 25px; }
+        
+        /* Estilo do Botão do Instagram */
+        .instagram-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 28px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .instagram-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(220, 39, 67, 0.6);
+        }
+
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; padding: 0 15px; max-width: 1200px; margin: 0 auto; }
         .gallery-item { overflow: hidden; border-radius: 12px; box-shadow: 0 8px 15px rgba(0,0,0,0.4); aspect-ratio: 3 / 4; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.05); opacity: 0; animation: fadeUp 0.6s ease-out forwards; transition: transform 0.4s ease, box-shadow 0.4s ease; }
         
-        /* Delays para as 23 mídias carregarem suavemente */
         .gallery-item:nth-child(1) { animation-delay: 0.1s; } .gallery-item:nth-child(2) { animation-delay: 0.2s; }
         .gallery-item:nth-child(3) { animation-delay: 0.3s; } .gallery-item:nth-child(4) { animation-delay: 0.4s; }
         .gallery-item:nth-child(5) { animation-delay: 0.5s; } .gallery-item:nth-child(6) { animation-delay: 0.6s; }
@@ -44,6 +65,11 @@
     <header>
         <h1>Portfólio</h1>
         <p>Aproxime o celular para conhecer mais</p>
+        
+        <!-- O Link do seu Instagram foi adicionado aqui -->
+        <a href="https://www.instagram.com/_danirodriguesos?utm_source=qr" target="_blank" class="instagram-btn">
+            Siga no Instagram
+        </a>
     </header>
 
     <main>
