@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Portfólio Digital</title>
+    <style>
+        /* Reset básico e tipografia */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Fundo com um gradiente escuro */
+        body {
+            background: linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            padding-bottom: 50px;
+            min-height: 100vh;
+        }
+
+        /* Animação suave de entrada */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho refinado */
+        header {
+            text-align: center;
+            padding: 50px 20px 40px;
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+
+        header h1 {
+            font-size: 32px;
+            font-weight: 200;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #fff, #a3a3a3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: #888888;
+            font-size: 13px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        /* Grid da Galeria */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Estilização individual das imagens */
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            aspect-ratio: 3 / 4; 
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out forwards;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        }
+
+        /* Cascatas de animação */
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.9s; }
+        .gallery-item:nth-child(10) { animation-delay: 1.0s; }
+        .gallery-item:nth-child(11) { animation-delay: 1.1s; }
+        .gallery-item:nth-child(12) { animation-delay: 1.2s; }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            transition: transform 0.5s ease, filter 0.5s ease;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255,255,255,0.05);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+            filter: brightness(1.1);
+        }
+
+        /* =========================================
+           ESTILOS DO LIGHTBOX E NAVEGAÇÃO (TELA CHEIA) 
+           ========================================= */
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            /* Evita que o usuário selecione coisas acidentalmente ao dar swipe */
+            user-select: none; 
+        }
+
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            object-fit: contain;
+            transform: scale(0.9);
+            /* Transição suave também para a opacidade quando troca de foto */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+        }
+
+        #lightbox.active img {
+            transform: scale(1);
+        }
+
+        /* Botão Fechar */
+        #close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 44px;
+            height: 44px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        #close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: rotate(90deg);
+        }
+
+        /* Botões de Navegação (Setas) */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1001;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+
+        /* Em telas menores (celulares), esconde as setas para focar no SWIPE (arrastar) */
+        @media (max-width: 768px) {
+            .nav-btn {
+                display: none;
+            }
+            #lightbox img {
+                max-width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Portfólio</h1>
+        <p>Aproxime o celular para conhecer mais</p>
+    </header>
+
+    <main>
+        <div class="gallery">
+            <!-- Limpei o HTML! Agora o Javascript cuida de adicionar o clique nas fotos automaticamente -->
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.08.05.jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.13.12.jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.13.11.jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.12.05.jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.11.11.jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.08.23.jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.08.45 (1).jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.08.45.jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.09.04 (1).jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.09.04.jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2026-07-20 at 10.10.00 (1).jpeg" alt="Foto">
+            </div>
+            <div class="gallery-item">
+                <!-- Fallback para a foto que estava dando erro mantido -->
+                <img src="WhatsApp Image 2026-07-20 at 10.10.00.jpeg" onerror="this.onerror=null; this.src='WhatsApp Image 2026-07-20 at 10.10.00.jpg';" alt="Foto">
+            </div>
+        </div>
+    </main>
+
+    <!-- Estrutura HTML do Lightbox atualizada com setas de navegação -->
+    <div id="lightbox" onclick="closeLightbox(event)">
+        <span id="close-btn" onclick="forceClose()">&times;</span>
+        
+        <button class="nav-btn prev-btn" onclick="changeImage(-1, event)">&#10094;</button>
+        <img id="lightbox-img" src="" alt="Foto Ampliada">
+        <button class="nav-btn next-btn" onclick="changeImage(1, event)">&#10095;</button>
+    </div>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const images = document.querySelectorAll('.gallery-item img');
+        
+        let currentIndex = 0;
+
+        // Adiciona a função de abrir lightbox dinamicamente em cada foto
+        galleryItems.forEach((item, index) => {
+            item.onclick = () => openLightbox(index);
+        });
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightboxImage();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Função para trocar a foto com um leve efeito de transição
+        function updateLightboxImage() {
+            lightboxImg.style.opacity = '0';
+            
+            setTimeout(() => {
+                lightboxImg.src = images[currentIndex].src;
+                lightboxImg.style.opacity = '1';
+            }, 200); // Tempo para o fade out acontecer antes de trocar o link
+        }
+
+        // Navegação por botões (setas)
+        function changeImage(step, event) {
+            if (event) event.stopPropagation(); // Evita que o clique feche o lightbox
+            
+            // Calcula a próxima foto, criando um "loop" (se passar da última, volta pra primeira)
+            currentIndex = (currentIndex + step + images.length) % images.length;
+            updateLightboxImage();
+        }
+
+        // Fechar o Lightbox
+        function closeLightbox(event) {
+            // Fecha apenas se clicar fora da foto e fora dos botões
+            if (event.target.id === 'lightbox') {
+                forceClose();
+            }
+        }
+
+        function forceClose() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                lightboxImg.src = '';
+            }, 400);
+        }
+
+        // ==========================================
+        //  SUPORTE A SWIPE (ARRASTAR) PARA CELULARES
+        // ==========================================
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        lightbox.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightbox.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const threshold = 50; // Distância mínima do dedo na tela para considerar um "arraste"
+            
+            if (touchEndX < touchStartX - threshold) {
+                // Arrasta para a esquerda = Próxima foto
+                changeImage(1, null); 
+            }
+            if (touchEndX > touchStartX + threshold) {
+                // Arrasta para a direita = Foto anterior
+                changeImage(-1, null);
+            }
+        }
+    </script>
+</body>
+</html>
